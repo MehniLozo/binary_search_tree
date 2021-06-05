@@ -9,6 +9,7 @@ int main()
     struct noeud * abr = creer_arbre();
 
   ajouter(&abr,100);
+/*
   ajouter(&abr,150);
   ajouter(&abr,50);
   ajouter(&abr,20);
@@ -16,10 +17,12 @@ int main()
   ajouter(&abr,120);
   ajouter(&abr,170);
 
-
+*/
     
    affiche(abr);
+   supprimer_element(abr);
     
+   affiche(abr);
     /* ajouter(&abr,5);
     
     printf("\n%d\n",abr->cle);

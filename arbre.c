@@ -122,3 +122,36 @@ void affiche(struct noeud* abr)
    } 
     printf("\n");
 }
+
+void supprimer_element(struct noeud *abr)
+{
+   /*   (a)-cas du noeud racine feuille ou demi-feuille
+    *       -noeud racine feuille: (sans sag sad) en le supprimant
+    *       l'arbre devient vide
+    *       -demi-feuille:
+    *           -noeud racine sans sag:sad devient la racine de l'arbre
+    *           -noeud racine sans sad: sag devient la racine de l'arbre
+    
+    * */
+   struct noeud *q; 
+    if(!abr->sag && !abr->sad)
+    { 
+        free(abr); //l'arbre devient vide
+        printf("\nelement has been successfully deleted\n");
+    
+        return;
+    }
+        q = abr;
+    if(!abr->sag)
+         abr = abr->sad;
+   else
+        abr = abr->sag;
+    free(q);
+    if(!q)
+        printf("\n noeud a ete supprimé avec success\n");
+    else
+        printf("\nnoeud n'a pas ete supprimé\n");
+
+
+
+}
