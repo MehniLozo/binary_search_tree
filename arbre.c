@@ -123,7 +123,7 @@ void affiche(struct noeud* abr)
     printf("\n");
 }
 
-void supprimer_element(struct noeud *abr)
+void supprimer_element(struct noeud**abr,int x)
 {
    /*   (a)-cas du noeud racine feuille ou demi-feuille
     *       -noeud racine feuille: (sans sag sad) en le supprimant
@@ -133,25 +133,90 @@ void supprimer_element(struct noeud *abr)
     *           -noeud racine sans sad: sag devient la racine de l'arbre
     
     * */
-   struct noeud *q; 
-    if(!abr->sag && !abr->sad)
-    { 
-        free(abr); //l'arbre devient vide
-        printf("\nelement has been successfully deleted\n");
-    
-        return;
-    }
-        q = abr;
-    if(!abr->sag)
-         abr = abr->sad;
-   else
-        abr = abr->sag;
-    free(q);
-    if(!q)
-        printf("\n noeud a ete supprimé avec success\n");
-    else
-        printf("\nnoeud n'a pas ete supprimé\n");
+   struct noeud *courant= *abr,*pere= NULL;
 
+   while(courant && courant->cle != x)
+   {
+       pere = courant;//we need the father in the 2nd case
+        if(x>courant->cle)
+            courant = courant->sad;
+        else
+            courant = courant->sag;
+    
+   }
+
+   if(!courant)
+   {
+    printf("\n%d n'existe pas dans l'arbre\n",x);
+    return;
+   }
+   if(!pere)//on a pas entrer dans la boucle c.a.d pere = NULL
+   {
+        if(! (*abr)->sag && !(*abr)->sad)
+        { 
+            free(abr); //l'arbre devient vide
+            printf("\n%d (racine) has been successfully deleted\n",x);
+        
+            return;
+        }
+        if(!(*abr)->sag || !(*abr)->sad)
+        {    
+                courant =*abr;
+            if(!(*abr)->sag)
+                 (*abr) = (*abr)->sad;
+           else
+                (*abr) =  (*abr)->sag;
+            free(courant);
+            printf("\n%d (racine) has been successfully deleted\n",x);
+        }
+   }
+    /*  (b) case du noeud non racine: feuille ou demi feuille:
+     *      -noeud feuille: on supprime ce noeud et on affecte la valeur
+     *          NULL au champ sag ou sad de son pere
+     *      -non racine
+     *          - sans sag: on affecte au champ sag ou sad se son pere
+     *              l'adresse de son fils droit
+     *          -sans sad: on affecte au champ sad ou sag de son pere
+     *              l'adresse de son fils gauche
+     * */
+   else{
+       if(courant)
+       {
+           if(!courant->sag && !courant->sad) //noeud feuille
+           {
+               
+                if(x < pere->cle)
+                    pere->sag = NULL;
+                else
+                    pere->sad = NULL;
+                free(courant);
+           }
+           else{
+                if(!courant->sag)
+                {
+                   if(x< pere->cle) //to check on which side of the node we in
+                    pere->sag = courant->sad; 
+                   else 
+                       pere->sad = courant->sad;
+                }else{
+                
+                   if(x< pere->cle) //to check on which side of the node we in
+                        pere->sag = courant->sag; 
+                   else 
+                       pere->sad = courant->sag;
+                
+                }
+            
+                free(courant);
+           }
+            printf("\n%d has been successully deleted\n",x);
+        
+       }
+    
+   
+   
+   
+   }
 
 
 }
