@@ -208,9 +208,41 @@ void supprimer_element(struct noeud**abr,int x)
                 }
             
                 free(courant);
+               
+                printf("\n%d has been successully deleted\n",x);
+                return;
            }
-            printf("\n%d has been successully deleted\n",x);
         
+          /*    (c) cas du noeud avec un sag && sad
+           *    on recherche le noeud contenant la plus petite valeur dans
+           *    le sad(SON SAD).
+           *    (on pourrait,rechercher le noeud contenant la plus grande
+           *    valeur dans la sag).
+           *    Ce noeud est forcément un sag.(FORCEMENT N'ADMET PAS UN SAG
+           *    BECAUSE ITS THE SMALLEST BUT PROBABLY A SAD)
+           *    La valeur contenue dans ce noeud
+           *    est alors affactée au champ valeur du noeud contenant la valeur
+           *    à supprimer
+           *    NB: ON NE SUPPRIME PAS LE NOEUD EN QUESTION
+           *
+           * */  
+           /*QUESTION?
+            * COULDN'T THIS CASE BE "ROOT TREE ITSELF????BUT WE SURPASSED IT
+            * "*/
+           if(courant->sag && courant->sad)
+           {
+               struct noeud* min = courant->sad;
+
+               while(min->sag)
+               {
+                   pere = min;
+                   min = min->sag; //recherchant la plus petite noeud
+               }
+               if(min->sad)
+                 pere->sag = min->sad;
+               courant->cle = min->cle;
+               free(min); //ON NE SUPPPRIME PAS LE NOEUD EN QUESTION
+            }
        }
     
    
