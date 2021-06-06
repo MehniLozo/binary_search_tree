@@ -5,6 +5,11 @@
 /*Une arbre binaire de recherche est une arbre ou on insere un nombre
   (*abr)uelcon(*abr)ue ,cette arbre reste trié.*/
 
+/*
+ *NB : still facing a little bug in "supprime_element" function
+    specifically when i try to delete the root itself when it does have 
+    sag and sad
+ * */
 /**************************Implementation_Abre_Binaire_Recherche**************/
 
 
@@ -37,6 +42,29 @@ unsigned recherche(struct noeud *abr,int info)
     
     }
     return 0;
+}
+struct noeud* recherche_min(struct noeud *abr)
+{
+    assert(!arbre_vide(abr));
+   struct noeud* pmin = abr; 
+   while(pmin->sag) //on connait que le plus petit element est toujours a gauche
+        pmin = pmin->sag; 
+
+   return pmin;
+   
+}
+struct noeud* recherche_max(struct noeud *abr)
+{
+   assert(!arbre_vide(abr));
+   struct noeud* pmax = abr; 
+   while(pmax->sad) //on connait que le plus petit element est toujours a gauche
+   {
+         printf("\npmax= %d \n",pmax->cle);
+        pmax = pmax->sad; 
+   }
+   printf("\npmax= %d \n",pmax->cle);
+   return pmax;
+   
 }
 void ajouter(struct noeud** abr,int info)
 {
@@ -150,7 +178,7 @@ void supprimer_element(struct noeud**abr,int x)
     printf("\n%d n'existe pas dans l'arbre\n",x);
     return;
    }
-   if(!pere)//on a pas entrer dans la boucle c.a.d pere = NULL
+   if(!pere) // on est dans le noeud root
    {
         if(! (*abr)->sag && !(*abr)->sad)
         { 
@@ -159,7 +187,7 @@ void supprimer_element(struct noeud**abr,int x)
         
             return;
         }
-        if(!(*abr)->sag || !(*abr)->sad)
+        else if(!(*abr)->sag || !(*abr)->sad)
         {    
                 courant =*abr;
             if(!(*abr)->sag)
@@ -168,7 +196,35 @@ void supprimer_element(struct noeud**abr,int x)
                 (*abr) =  (*abr)->sag;
             free(courant);
             printf("\n%d (racine) has been successfully deleted\n",x);
-        }
+
+        }  
+                //repeated code IF ROOT HAS TWO BRANCHES
+             if((*abr)->sag && (*abr)->sad)
+           {
+               printf("\nReached up here\n");
+               struct noeud* min = (*abr)->sad,*pere_mini;
+               printf("valeur de abr = %d \n",(*abr)->cle);
+               printf("valeur de droite de  abr = %d \n",(*abr)->sad->cle);
+
+               printf("valeur de gauche droite  de  abr = %d \n",(*abr)->sad->sag->cle);
+               
+
+               while(min->sag)
+               {
+                   pere_mini = min;
+                   min = min->sag; //recherchant la plus petite noeud
+               }
+               printf("\nvaleur de min = %d\n",min->cle);
+               
+               printf("\nReached up here2\n");
+
+               if(min->sad)
+                 pere_mini->sag = min->sad;
+               printf("\nReached up here3\n");
+               (*abr)->cle = min->cle;
+               free(min); //ON NE SUPPPRIME PAS LE NOEUD EN QUESTION
+            }
+
    }
     /*  (b) case du noeud non racine: feuille ou demi feuille:
      *      -noeud feuille: on supprime ce noeud et on affecte la valeur

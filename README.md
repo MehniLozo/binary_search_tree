@@ -6,5 +6,8 @@ Boilerplate includes the:
 - Depth-first search (DFS) for displaying the tree(using a stack)
 -delete a desired element without any data loss(respecting the binary tree
 deleting protocols)
+-Search for:
+        -maximum
+        -minimum 
 
 
