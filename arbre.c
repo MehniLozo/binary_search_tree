@@ -43,6 +43,17 @@ unsigned recherche(struct noeud *abr,int info)
     }
     return 0;
 }
+/*
+unsigned profondeur(struct noeud* abr)
+{
+
+    //STILL UNDER MAINTENANCE
+    //retourne la profondeur ---> the maximum depth of the tree
+   
+    
+}
+
+*/
 struct noeud* recherche_min(struct noeud *abr)
 {
     assert(!arbre_vide(abr));
@@ -58,11 +69,8 @@ struct noeud* recherche_max(struct noeud *abr)
    assert(!arbre_vide(abr));
    struct noeud* pmax = abr; 
    while(pmax->sad) //on connait que le plus petit element est toujours a gauche
-   {
-         printf("\npmax= %d \n",pmax->cle);
-        pmax = pmax->sad; 
-   }
-   printf("\npmax= %d \n",pmax->cle);
+     pmax = pmax->sad; 
+
    return pmax;
    
 }
