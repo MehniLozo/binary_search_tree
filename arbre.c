@@ -5,11 +5,6 @@
 /*Une arbre binaire de recherche est une arbre ou on insere un nombre
   (*abr)uelcon(*abr)ue ,cette arbre reste trié.*/
 
-/*
- *NB : still facing a little bug in "supprime_element" function
-    specifically when i try to delete the root itself when it does have 
-    sag and sad
- * */
 /**************************Implementation_Abre_Binaire_Recherche**************/
 
 
@@ -25,6 +20,7 @@ unsigned arbre_vide(struct noeud* abr)
 unsigned recherche(struct noeud *abr,int info)
 
 {
+    //basic Binary-Search : recherche dichotomique
 
     assert(!arbre_vide(abr));
     struct noeud* q = abr;
@@ -91,6 +87,8 @@ void ajouter(struct noeud** abr,int info)
     }
     //else 
     //on a le cas si info existe déja dans l'arbre
+    //We literally took advantage of this by checking whether the element exists already in the tree & also
+    //we capture the father of this node(appropriate position)
      struct noeud *courant = *abr,*pere= NULL;
         int trouve = 0;
     while(courant && !trouve)
@@ -159,6 +157,48 @@ void affiche(struct noeud* abr)
     printf("\n");
 }
 
+int successor(struct noeud* abr)
+{
+    /*Successor if root node is the smallest node on the right branch*/
+    struct noeud* courant = abr;
+
+    if(!(abr->sad))
+    {
+        printf("\n%d doesn't have no successor\n",abr->cle);
+        return 0;
+    }
+
+    courant = abr->sad;
+
+    while(courant->sag)
+        courant = courant->sag;
+
+    return courant->cle;
+
+
+}
+int predecessor(struct noeud *abr)
+{
+
+    /*Predecessor is the biggest node on the left node 
+     * */
+    struct noeud* courant = abr;
+    
+    if(!(abr->sag))
+    {
+        printf("\n----%d doesn't have no predecessor----\n",abr->cle);
+        return 0;
+    }
+
+    courant = abr->sag;
+
+    while(courant->sad) //we can find the biggest item on the right
+        courant = courant->sad;
+    
+    printf("\n%d\n",courant->cle);
+
+    return courant->cle;
+}
 void supprimer_element(struct noeud**abr,int x)
 {
    /*   (a)-cas du noeud racine feuille ou demi-feuille

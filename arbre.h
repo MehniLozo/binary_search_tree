@@ -12,3 +12,5 @@ struct noeud* recherche_min(struct noeud *abr);
 struct noeud* recherche_max(struct noeud *abr);
 void ajouter(struct noeud** abr,int info);
 void affiche(struct noeud* abr);
+int predecessor(struct noeud *abr);
+int successor(struct noeud* abr);

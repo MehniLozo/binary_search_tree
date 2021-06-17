@@ -8,12 +8,21 @@ int main()
 
     struct noeud * abr = creer_arbre();
     ajouter(&abr,100);
-    ajouter(&abr,50);
+    ajouter(&abr,170);
     ajouter(&abr,150);
+    /**
     ajouter(&abr,20);
     ajouter(&abr,10);
     ajouter(&abr,170);
     ajouter(&abr,120);
+    */
+    affiche(abr);
+
+    if(predecessor(abr))
+        printf("\npredecessor of %d is %d\n",abr->cle,predecessor(abr));
+    if(successor(abr))
+        printf("\nsuccessor  of %d is %d\n",abr->cle,successor(abr));
+
 /*
   ajouter(&abr,3);
   ajouter(&abr,6);
@@ -34,11 +43,11 @@ int main()
   ajouter(&abr,170);
 
 */
-    
+/*    
    affiche(abr);
    printf("\nmax= %d\n",recherche_max(abr)->cle);
    printf("\nmin= %d\n",recherche_min(abr)->cle);
-    
+ */   
 /*   supprimer_element(&abr,5);
    supprimer_element(&abr,4);
    supprimer_element(&abr,3);
